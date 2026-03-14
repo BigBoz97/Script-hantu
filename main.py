@@ -1,6 +1,6 @@
 import json
 import asyncio
-from telethon import TelegramClient
+from telethon import TelegramClient, events
 
 def banner():
     print("=================================")
@@ -26,6 +26,13 @@ async def main():
     await client.send_message(bot_username, "/start")
 
     print(f"Connected to @{bot_username}")
+    @client.on(events.NewMessage(from_users=bot_username))
+async def handler(event):
+    print("\n===== BOT MESSAGE =====")
+    print(event.raw_text)
+
+print("Listening for messages from bot...")
+await client.run_until_disconnected()
 
 if __name__ == "__main__":
     asyncio.run(main())
